@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Student;
 use App\Models\Student\StudentBasicInfo;
 use App\User;
 
+// Request
+use App\Http\Requests\Student\StudentBasicInfo\StoreRequest;
+
+
 // others
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,9 +22,10 @@ class StudentBasicInfoController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
       $username = $request->first_name."".rand(1, 100);
+      
       $user = [
 
         'username' => $username,
@@ -33,19 +38,19 @@ class StudentBasicInfoController extends Controller
 
         $last_user = User::all()->last();
         $last_user_id = $last_user->id;
-        
+
         $student_basic_info = [
 
-          'first_name' => $request->first_name,
-          'last_name' => $request->last_name,
-          'email' => $request->email,
-          'mobile' => $request->mobile,
-          'dop' => $request->dop,
-          'sex' => $request->sex,
-          'previous_school' => $request->previous_school,
-          'admission_year' => $request->admission_year,
-          'admission_class' => $request->admission_class,
-          'admission_reason' => $request->admission_reason,
+          'first_name' => $stu_request->first_name,
+          'last_name' => $stu_request->last_name,
+          'email' => $stu_request->email,
+          'mobile' => $stu_request->mobile,
+          'dop' => $stu_request->dop,
+          'sex' => $stu_request->sex,
+          'previous_school' => $stu_request->previous_school,
+          'admission_year' => $stu_request->admission_year,
+          'admission_class' => $stu_request->admission_class,
+          'admission_reason' => $stu_request->admission_reason,
           'user_id' => $last_user_id
         ];
 
