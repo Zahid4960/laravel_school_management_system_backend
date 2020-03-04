@@ -12,7 +12,6 @@ class StudentBasicInfo extends Model
 
       'first_name',
       'last_name',
-      'username',
       'email',
       'mobile',
       'dop',
@@ -21,7 +20,7 @@ class StudentBasicInfo extends Model
       'admission_year',
       'admission_class',
       'admission_reason',
-      'active'
+      'active',
       'user_id'
     ];
 }
