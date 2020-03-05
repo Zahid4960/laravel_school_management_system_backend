@@ -20,6 +20,7 @@ class StudentBasicInfo extends Model
       'admission_class',
       'admission_reason',
       'created_by',
+      'active',
       'user_id'
     ];
 }

@@ -26,7 +26,7 @@ class CreateStudentBasicInfosTable extends Migration
             $table->string('admission_class');
             $table->string('admission_reason')->nullable();
             $table->bigInteger('created_by')->default(1)->unsigned();
-
+            $table->boolean('active')->default(0)->comment('1 => active, 0 => inactive');
             // foreignkeys
             $table->bigInteger('user_id')->unique()->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

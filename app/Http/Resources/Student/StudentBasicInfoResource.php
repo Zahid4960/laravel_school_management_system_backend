@@ -10,12 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class StudentBasicInfoResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function toArray($request)
     {
         $data = [
@@ -32,6 +26,7 @@ class StudentBasicInfoResource extends JsonResource
           'admission_reason' => $this->admission_reason,
           'user_id' => $this->user_id,
           'user_name' => $this->getUserName(),
+          'active' => $this->active,
           'created_by' => $this->created_by,
           // 'creator_name' => $this->getCreator_name(),
         ];
@@ -42,8 +37,8 @@ class StudentBasicInfoResource extends JsonResource
     private function getUserName()
     {
       $user_name = User::where('id', $this->user_id)->first();
-      if(count($user_name) > 0){
-        $user_name->username;
+      if(!empty($user_name)){
+        return $user_name->username;
       }
       return null;
     }

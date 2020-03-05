@@ -8,6 +8,7 @@ use App\User;
 
 // Requests
 use App\Http\Requests\Student\StoreStudentBasicInfo;
+use App\Http\Requests\Student\UpdateStudentBasicInfo;
 
 // Resources
 use App\Http\Resources\Student\StudentBasicInfoResource;
@@ -38,6 +39,7 @@ class StudentBasicInfoController extends Controller
           'student_basic_infos.admission_reason as admission_reason',
           'student_basic_infos.user_id as user_id',
           'student_basic_infos.created_by as created_by',
+          'student_basic_infos.active as active'
         ]);
 
         $student_basic_info = $list->get();
@@ -62,7 +64,8 @@ class StudentBasicInfoController extends Controller
       $user_name = $request->first_name."".rand(1, 10);
       $user = [
           'username' => $user_name,
-          'password' =>  $user_name
+          'password' =>  $user_name,
+          'user_type' => 1
         ];
 
         $save_user = User::create($user);
@@ -106,18 +109,75 @@ class StudentBasicInfoController extends Controller
 
     public function show($id)
     {
-        //
+        $student_basic_info_list = StudentBasicInfo::find($id);
+
+        if(!empty($student_basic_info_list)){
+          return response()->json(array(
+            'status' => 'success',
+            'message' => 'Data Found',
+            'data' => $student_basic_info_list
+          ));
+        }
+        return response()->json(array(
+          'status' => 'success',
+          'message' => 'Data Not Found',
+          'data' => []
+        ));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(UpdateStudentBasicInfo $request, $id)
     {
-        //
+        $find_that_student_basic_info = StudentBasicInfo::find($id);
+
+        if(empty($find_that_student_basic_info)){
+          return response()->json(array(
+            'status' => 'success',
+            'message' => 'Data Not Found',
+            'data' => []
+          ));
+        }
+
+        $student_basic_info_data_from_request = $request->all();
+
+        $update_student_basic_info = $find_that_student_basic_info->update($student_basic_info_data_from_request);
+
+        if(!empty($update_student_basic_info)){
+          return response()->json(array(
+            'status' => 'success',
+            'message' => 'Data Updated Successfully'
+          ));
+        }
+        return response()->json(array(
+          'status' => 'Failed',
+          'message' => 'Data Failed To Update'
+        ));
     }
 
 
     public function destroy($id)
     {
-        //
+        $find_that_student_basic_info = StudentBasicInfo::find($id);
+
+        if(empty($find_that_student_basic_info)){
+          return response()->json(array(
+            'status' => 'success',
+            'message' => 'Data Not Found'
+          ));
+        }
+
+        $delete_that_student_basic_info = $find_that_student_basic_info->delete();
+
+        if($delete_that_student_basic_info){
+          return response()->json(array(
+            'status' => 'success',
+            'message' => 'Data Deleted Successfully'
+          ));
+        }
+
+        return response()->json(array(
+          'status' => 'Failed',
+          'message' => 'Data Failed To Delete'
+        ));
     }
 }
