@@ -52,4 +52,24 @@ class AuthenticationController extends Controller
     		'message' => 'User registered successfully!'
     	], 200);
     }
+
+    public function login(Request $request, UserRequest $user_req)
+    {
+    	// check user exists or not
+    	$check_user = User::where('email', $request->email)->first();
+    	if(!empty($check_user)){
+    		if(Hash::check($request->password, $check_user->password_hash)){
+    			$request->session()->put('user_id', $check_user->id);
+    			return response()->json([
+    				'status' => 'succes',
+    				'message' => 'Successfully loged in '
+    			], 200); 
+    		}
+    	}				  
+
+    	return response()->json([
+    		'status' => 'failed',
+    		'message' => 'Invalid email or password'
+    	], 401);
+    }
 }
