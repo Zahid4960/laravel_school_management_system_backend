@@ -2,7 +2,11 @@
 
 namespace App\Services\Student;
 
+// repositories
 use App\Repositories\Student\BasicInfoRepo;
+
+// requests
+use Illuminate\Http\Request;
 
 class BasicInfoService
 {
@@ -16,5 +20,12 @@ class BasicInfoService
 	public function index()
 	{
 		return $this->std_basic_info_repo->getAll();
+	}
+
+	public function store(Request $request)
+	{
+		$std_basic_info_data = $request->all();
+
+		return $this->std_basic_info_repo->saveStdBasicInfo($std_basic_info_data);
 	}
 }
