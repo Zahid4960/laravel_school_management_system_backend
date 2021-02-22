@@ -10,51 +10,38 @@ use App\User;
 use App\Http\Requests\Student\StoreStudentBasicInfo;
 use App\Http\Requests\Student\UpdateStudentBasicInfo;
 
-// Resources
-use App\Http\Resources\Student\StudentBasicInfoResource;
-
 // others
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 
+// services
+use App\Services\Student\BasicInfoService;
+
 class StudentBasicInfoController extends Controller
 {
+    protected $std_basic_info_service;
+
+    public function __construct(BasicInfoService $std_basic_info_service)
+    {
+        $this->std_basic_info_service = $std_basic_info_service;
+    } 
 
     public function index()
     {
-        $list = (new StudentBasicInfo)->newQuery();
+        $list = $this->std_basic_info_service->index();
 
-        $list->select([
-          'student_basic_infos.id as id',
-          'student_basic_infos.first_name as first_name',
-          'student_basic_infos.last_name as last_name',
-          'student_basic_infos.email as email',
-          'student_basic_infos.mobile as mobile',
-          'student_basic_infos.dop as dop',
-          'student_basic_infos.gender as gender',
-          'student_basic_infos.previous_school as previous_school',
-          'student_basic_infos.admission_year as admission_year',
-          'student_basic_infos.admission_class as admission_class',
-          'student_basic_infos.admission_reason as admission_reason',
-          'student_basic_infos.user_id as user_id',
-          'student_basic_infos.created_by as created_by',
-          'student_basic_infos.active as active'
-        ]);
-
-        $student_basic_info = $list->get();
-
-        if(count($student_basic_info) > 0){
+        if(!blank($list)){
           return response()->json(array(
             'status' => 'success',
             'message' => 'Data Found!',
-            'data' => StudentBasicInfoResource::collection($student_basic_info)
+            'data' => $list
           ));
         }
         return response()->json(array(
           'status' => 'success',
           'message' => 'No Data Found!',
-          'data' => []
+          'data' => $list
         ));
     }
 
