@@ -4,8 +4,9 @@ namespace App\Repositories\Student;
 
 // models
 use App\Models\Student\StudentBasicInfo;
+use App\Repositories\Interfaces\BaseInterface;
 
-class BasicInfoRepo
+class BasicInfoRepo implements BaseInterface
 {
 	protected $std_basic_info;
 
@@ -43,5 +44,16 @@ class BasicInfoRepo
   public function saveStdBasicInfo($std_basic_info_data)
   {
     return $this->std_basic_info->create($std_basic_info_data);
+  }
+
+
+  public function findStdBasicInfoById($id)
+  {
+    return $this->std_basic_info->find($id);
+  }
+
+  public function zahid()
+  {
+      // TODO: Implement zahid() method.
   }
 }

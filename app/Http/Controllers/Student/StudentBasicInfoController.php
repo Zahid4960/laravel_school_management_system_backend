@@ -24,25 +24,25 @@ class StudentBasicInfoController extends Controller
 
   public function __construct(BasicInfoService $std_basic_info_service)
   {
-      $this->std_basic_info_service = $std_basic_info_service;
+    $this->std_basic_info_service = $std_basic_info_service;
   } 
 
   public function index()
   {
-      $list = $this->std_basic_info_service->index();
+    $list = $this->std_basic_info_service->index();
 
-      if(!blank($list)){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Found!',
-          'data' => $list
-        ));
-      }
+    if(!blank($list)){
       return response()->json(array(
         'status' => 'success',
-        'message' => 'No Data Found!',
+        'message' => 'Data Found!',
         'data' => $list
       ));
+    }
+    return response()->json(array(
+      'status' => 'success',
+      'message' => 'No Data Found!',
+      'data' => $list
+    ));
   }
 
 
@@ -66,75 +66,75 @@ class StudentBasicInfoController extends Controller
 
   public function show($id)
   {
-      $student_basic_info_list = StudentBasicInfo::find($id);
+    $student_basic_info_by_id = $this->std_basic_info_service->show($id);
 
-      if(!empty($student_basic_info_list)){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Found',
-          'data' => $student_basic_info_list
-        ));
-      }
+    if(!blank($student_basic_info_by_id)){
       return response()->json(array(
         'status' => 'success',
-        'message' => 'Data Not Found',
-        'data' => []
+        'message' => 'Data Found',
+        'data' => $student_basic_info_by_id
       ));
+    }
+    return response()->json(array(
+      'status' => 'success',
+      'message' => 'Data Not Found',
+      'data' => []
+    ));
   }
 
 
   public function update(UpdateStudentBasicInfo $request, $id)
   {
-      $find_that_student_basic_info = StudentBasicInfo::find($id);
+    $find_that_student_basic_info = StudentBasicInfo::find($id);
 
-      if(empty($find_that_student_basic_info)){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Not Found',
-          'data' => []
-        ));
-      }
-
-      $student_basic_info_data_from_request = $request->all();
-
-      $update_student_basic_info = $find_that_student_basic_info->update($student_basic_info_data_from_request);
-
-      if(!empty($update_student_basic_info)){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Updated Successfully'
-        ));
-      }
+    if(empty($find_that_student_basic_info)){
       return response()->json(array(
-        'status' => 'Failed',
-        'message' => 'Data Failed To Update'
+        'status' => 'success',
+        'message' => 'Data Not Found',
+        'data' => []
       ));
+    }
+
+    $student_basic_info_data_from_request = $request->all();
+
+    $update_student_basic_info = $find_that_student_basic_info->update($student_basic_info_data_from_request);
+
+    if(!empty($update_student_basic_info)){
+      return response()->json(array(
+        'status' => 'success',
+        'message' => 'Data Updated Successfully'
+      ));
+    }
+    return response()->json(array(
+      'status' => 'Failed',
+      'message' => 'Data Failed To Update'
+    ));
   }
 
 
   public function destroy($id)
   {
-      $find_that_student_basic_info = StudentBasicInfo::find($id);
+    $find_that_student_basic_info = StudentBasicInfo::find($id);
 
-      if(empty($find_that_student_basic_info)){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Not Found'
-        ));
-      }
-
-      $delete_that_student_basic_info = $find_that_student_basic_info->delete();
-
-      if($delete_that_student_basic_info){
-        return response()->json(array(
-          'status' => 'success',
-          'message' => 'Data Deleted Successfully'
-        ));
-      }
-
+    if(empty($find_that_student_basic_info)){
       return response()->json(array(
-        'status' => 'Failed',
-        'message' => 'Data Failed To Delete'
+        'status' => 'success',
+        'message' => 'Data Not Found'
       ));
+    }
+
+    $delete_that_student_basic_info = $find_that_student_basic_info->delete();
+
+    if($delete_that_student_basic_info){
+      return response()->json(array(
+        'status' => 'success',
+        'message' => 'Data Deleted Successfully'
+      ));
+    }
+
+    return response()->json(array(
+      'status' => 'Failed',
+      'message' => 'Data Failed To Delete'
+    ));
   }
 }
