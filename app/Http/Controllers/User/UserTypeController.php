@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 // services
+use App\Services\BaseService;
 use App\Services\User\UserTypeService;
 
 // others
@@ -12,16 +13,19 @@ use App\Http\Controllers\Controller;
 class UserTypeController extends Controller
 {
     private $userType;
+    private $base;
 
-    public function __construct(UserTypeService $userType)
+    public function __construct(UserTypeService $userType, BaseService $base)
     {
         $this->userType = $userType;
+        $this->base = $base;
     }
 
     public function index()
     {
-        $this->userType->index();
-//        return 'zahid';
+       $userTypeLists = $this->userType->index();
+
+        return $this->base->responder($userTypeLists);
     }
 
 
@@ -31,9 +35,11 @@ class UserTypeController extends Controller
     }
 
 
-    public function show(UserType $userType)
+    public function show($id)
     {
-        //
+        $data = $this->userType->show($id);
+
+        return $this->base->responder($data);
     }
 
 

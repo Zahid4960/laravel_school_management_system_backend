@@ -4,17 +4,22 @@
 namespace App\Services;
 
 
-abstract class BaseService
+class BaseService
 {
-    protected $interface;
-
-    public function __construct($interface)
+    public function responder($data)
     {
-        $this->interface = new $interface;
-    }
+        if(!blank($data)){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data Found!!!',
+                'data' => $data
+            ]);
+        }
 
-    public function index()
-    {
-        $this->interface->getAll();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Not Found!!!',
+            'data' => $data
+        ]);
     }
 }

@@ -3,9 +3,6 @@
 
 namespace App\Services\User;
 
-// services
-use App\Services\BaseService;
-
 // interfaces
 use App\Repositories\Interfaces\User\UserTypeInterface;
 
@@ -21,5 +18,10 @@ class UserTypeService
     public function index()
     {
         return $this->userTypeRepo->getAll();
+    }
+
+    public function show($id)
+    {
+        return $this->userTypeRepo->findById($id);
     }
 }

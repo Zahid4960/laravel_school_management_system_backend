@@ -1,3 +1,3 @@
 <?php
 
-//Route::apiResource('user-types', 'User\UserTypeController');
+Route::apiResource('user-types', 'User\UserTypeController');
