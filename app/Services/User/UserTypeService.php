@@ -31,4 +31,8 @@ class UserTypeService
         return $this->userTypeRepo->findById($id);
     }
 
+    public function destroy($id)
+    {
+        return $this->userTypeRepo->deleteData($id);
+    }
 }

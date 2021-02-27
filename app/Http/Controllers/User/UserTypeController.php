@@ -56,8 +56,10 @@ class UserTypeController extends Controller
     }
 
 
-    public function destroy(UserType $userType)
+    public function destroy($id)
     {
-        //
+        $isDeleted = $this->userType->destroy($id);
+
+        return $this->response->isDeleteResponder($isDeleted);
     }
 }

@@ -32,4 +32,11 @@ abstract class BaseRepository
     {
         return $this->getAll()->where('status', 1);
     }
+
+    public function deleteData($id)
+    {
+        $data = $this->findById($id);
+
+        return $data->delete();
+    }
 }
