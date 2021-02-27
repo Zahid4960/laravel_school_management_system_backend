@@ -15,11 +15,21 @@ abstract class BaseRepository
 
     public function getAll()
     {
-        return $this->model->all();
+        return $this->model->active()->get();
     }
 
     public function findById($id)
     {
         return $this->model->find($id);
+    }
+
+    public function saveData(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function getActive()
+    {
+        return $this->getAll()->where('status', 1);
     }
 }

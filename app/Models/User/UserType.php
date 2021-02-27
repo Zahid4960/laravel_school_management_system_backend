@@ -11,4 +11,9 @@ class UserType extends Model
     protected $fillable = [
         'user_type'
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

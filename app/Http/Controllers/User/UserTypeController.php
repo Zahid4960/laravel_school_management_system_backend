@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 // services
-use App\Services\BaseService;
+use App\Services\ResponseService;
 use App\Services\User\UserTypeService;
+
+// requests
+use App\Http\Requests\User\UserType\UserTypeSaveReq;
 
 // others
 use Illuminate\Http\Request;
@@ -13,25 +16,29 @@ use App\Http\Controllers\Controller;
 class UserTypeController extends Controller
 {
     private $userType;
-    private $base;
+    private $response;
 
-    public function __construct(UserTypeService $userType, BaseService $base)
+    public function __construct(UserTypeService $userType, ResponseService $response)
     {
         $this->userType = $userType;
-        $this->base = $base;
+        $this->response = $response;
     }
 
     public function index()
     {
        $userTypeLists = $this->userType->index();
 
-        return $this->base->responder($userTypeLists);
+        return $this->response->responder($userTypeLists);
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, UserTypeSaveReq $userTypeSaveReq)
     {
-        //
+        $data = $request->all();
+
+        $isSaved = $this->userType->store($data);
+
+        return $this->response->isSavedResponder($isSaved);
     }
 
 
@@ -39,7 +46,7 @@ class UserTypeController extends Controller
     {
         $data = $this->userType->show($id);
 
-        return $this->base->responder($data);
+        return $this->response->responder($data);
     }
 
 
