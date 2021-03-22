@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories\Interfaces\User;
+namespace App\Repositories;
 
 
 interface UserTypeInterface

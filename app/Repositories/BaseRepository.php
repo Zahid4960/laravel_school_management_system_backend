@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Repositories;
-
 
 abstract class BaseRepository
 {
@@ -15,28 +12,29 @@ abstract class BaseRepository
 
     public function getAll()
     {
-        return $this->model->active()->get();
+        return $this->model->where('status', 1)->get();
     }
 
     public function findById($id)
     {
-        return $this->model->find($id);
+        return $this->model->where([ 'id' => $id, 'status' => 1])->first();
     }
 
-    public function saveData(array $data)
+    public function saveData($data)
     {
         return $this->model->create($data);
     }
 
-    public function getActive()
+    public function dataUpdate($data, $id)
     {
-        return $this->getAll()->where('status', 1);
+        $find = $this->model->find($id);
+        $find->update($data);
+        return $this->model->find($id);
     }
 
     public function deleteData($id)
     {
-        $data = $this->findById($id);
-
+        $data = $this->model->find($id);
         return $data->delete();
     }
 }
